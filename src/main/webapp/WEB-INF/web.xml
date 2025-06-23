@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	* web.xml
+	 - 배포 서술자(Deploymeny Descriptor)
+	 - 웹 애플리케이션(context)의 기본적인 설정을 작성하는 파일
+	 - 아파치 톰캣이 웹 애플리케이션들을 읽어올 때 가장 먼저 읽는 파일
+-->
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+	id="WebApp_ID" version="4.0">
+	<display-name>01_servlet</display-name>
+	<!-- welcome-file-list - was에 context-path경로 까지만 기술 시 지정하는 태그 -->
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+	</welcome-file-list>
+	<!--
+		생성한 서블릿 등록하기
+		1. web.xml에 직접 등록하기
+		2. annotation으로 자동 등록
+	-->
+	<servlet>
+		<servlet-name>first</servlet-name>
+		<servlet-class>com.kh.basicServlet.BasicServlet</servlet-class>
+	</servlet>
+
+	<!-- 톰캣에 등록된 서블릿을 특정 주소와 mapping처리 -->
+	<servlet-mapping>
+		<servlet-name>first</servlet-name>
+		<url-pattern>/first</url-pattern>
+	</servlet-mapping>
+</web-app>
