@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	table {
+		border-collapse: collapse;
+		border: 1px solid #000;
+		margin: 5px;
+	}
+	
+	th, td {
+		border: 1px solid #000;
+	}
+	
+	table img {
+		width: 150px;
+	}
+</style>
+</head>
+<body>
+	<h1>Ajax 개요</h1>
+	<!-- 
+		Ajax
+		 - Asynchronous Javascript And Xml
+		 - js로 서버로 요청을 보내, 데이터를 가져온 후 페이지를
+		   새로 고치지 않고 일부만 로드할 수 있게 하는 기법.
+		 - html의 a태그와 form태그를 통한 요청 방식은 응답받은 데이터를
+		   바탕으로 전체 페이지를 새로 로드 해야하는 동기식 요청 방식임.
+		   
+		동기식
+		 - 서버로 요청을 보낸 후 응답 페이지가 모두 로드 되어야 다음 작업이 가능.
+		 - 전체 페이지가 리로드 된다.
+		 - 만약 서버에서 결과를 반환해주기 까지 시간이 지연된다면, 응답 화면을 받아볼 수 없음.
+		 
+		비동기식
+		 - 현재 페이지는 그대로 유지하면서, 추가적인 요청을 보낼 수 있는 방식
+		 - 서버에서 결과를 반환해주기 까지 오랜 시간이 걸리더라도, 현재 페이지를 이용하는데 문제가 없음.
+	-->
+	
+	<h1>XMLHttpRequest 객체를 이용한 Ajax</h1>
+	
+	<button onclick="ajaxTest1()">ajax get</button>
+	<button onclick="ajaxTest2()">ajax post</button>
+	
+	<div id="target"></div>
+	
+	<script>
+		function ajaxTest1(){
+			// 1. XmlHttpRequest 객체 생성
+			const xhr = new XMLHttpRequest();
+			
+			// 2. xhr 객체 설정
+			// open("get/post" , 요청을 보내는 주소 , [동기식/비동기식]) // 마지막 동기식 설정은 선택사항.
+			xhr.open("get","/servlet/ajax/ajaxTest.do?id=admin");
+			
+			// 요청에 대한 응답 결과를 처리할 이벤트 속성
+			xhr.onreadystatechange = function(){
+				// readyState : 전송 상태를 관리하는 속성
+				if(xhr.readyState == 4){
+					// status 응답 결과를 관리하는 속성
+					if(xhr.status == 200){
+						// status == 200 -> 응답 메세지가 정상적으로 수신
+						// 정상 수신 시 xhr의 responseText에 응답 데이터가 저장
+						console.log(xhr.responseText);
+						document.querySelector("#target").innerHTML += "<h3>"+xhr.responseText+"</h3>";
+					}
+					else if(xhr.status == 404){
+						alert("찾는 페이지가 존재하지 않습니다.");
+					}else {
+						alert("에러가 발생했습니다.");
+					}
+				}
+			};
+			
+			// 3. xhr 객체를 활용한 요청
+			xhr.send();
+		}
+		
+		function ajaxTest2(){
+			const xhr = new XMLHttpRequest();
+			xhr.open("post","/servlet/ajax/ajaxTest.do");
+			
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState === 4){
+					if(xhr.status === 200){
+						document.getElementById("target").innerHTML += "<h4>"+xhr.responseText+"</h4>";
+					}
+				}
+			}
+			xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded"); // body에 담긴 데이터의 형식을 Header에 기술
+			xhr.send("id=user01&name=강동현"); // send의 매개변수가 body영역
+		}
+	</script>
+	
+	<br><br><hr><br>
+	
+	<h1>fetch함수를 이용한 AJAX 테스트</h1>
+	
+	<button onclick="fetch1()">Fetch Get 테스트</button>
+	<button onclick="fetch2()">Fetch Post 테스트</button>
+	
+	<div id="target2"></div>
+	
+	<script>
+		function fetch1(){
+			/*
+				fetch 함수
+				 - es6에서 추가된 비동기 함수로, 간결한 문법으로 서버에 요청을 보낼 수 있다.
+				 - Promise기반으로 설계되어 있으며 비동기 요청 성공 시, 실패 시 처리를 위한 메서드 제공
+				 - fetch함수는 비동기 요청을 보내면 Promise객체를 반환하고,
+				   서버로부터 데이터를 응답받기 전까지 다른 작업을 수행할 수 있다.
+				   
+				Promise
+				 - 비동기 작업의 처리 결과를 나타내는 객체로 3가지 상태 값을 가진다.
+				  1) pending : 비동기 작업 처리 중 임을 나타내는 상태(초기값)
+				  2) fulfilled/resolved : 비동기 작업 처리 완료 상태(응답을 받은 상태)
+				  3) rejected : 비동기 작업 처리 실패 상태(응답을 받지 못한 상태)
+				  
+				fetch함수의 사용 방법
+				 - fetch(url, [options])
+				 - url : 요청을 보낼 주소(필수)
+				 - options : 요청에 대한 옵션들(선택)
+				  > methods : 요청 방식
+				  > headers : 뵤청 헤더
+				  > body : 요청 바디
+			*/
+			
+			fetch("/servlet/ajax/ajaxTest.do?id=admin")
+			.then(function(response){ // then : 비동기 작업 처리 완료 시 실행되는 함수. 매개변수로 콜백함수를 인자로 받는다.
+				console.log(response);
+				if(!(response.ok && response.status === 200)){ // response.status == 200
+					throw new Error("찾는 페이지가 존재하지 않습니다.");
+				}
+				return response.text(); // 비동기 함수로 Promise를 반환
+			}).then(function(text){
+				console.log(text);
+				document.getElementById("target2").innerHTML = text;
+			}).catch(function(error){ // catch : Promise객체의 결과가 rejected가 되는경우 실행되는 함수
+				console.log(error);
+			}).finally(function(){ // finally : 비동기 작업이 처리 완료되는 경우 항상 실행되는 함수
+				console.log("작업 처리 완료");
+			});
+		}
+		
+		function fetch2(){
+			fetch("/servlet/ajax/ajaxTest.do",{
+				method : "post",
+				body : "id=user01&name=kdh",
+				headers : {"Content-Type":"application/x-www-form-urlencoded"}
+			}).then(res => {
+				if(!res.ok){
+					throw new Error("에러 발생");
+				}
+				return res.text();
+			}).then(text => {
+				document.getElementById("target2").innerHTML = `<h4>${text}</h4>`;
+			}).catch(error => {
+				console.log("에러발생",error);
+			})
+		}
+	</script>
+</body>
+</html>

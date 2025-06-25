@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<style>
+	table {
+		border-collapse: collapse;
+		border: 1px solid #000;
+		margin: 5px;
+	}
+
+	th,
+	td {
+		border: 1px solid #000;
+	}
+
+	table img {
+		width: 150px;
+	}
+</style>
+</head>
+<body>
+	<h1>text</h1>
+	<input type="button" value="실행" id="btn1" />
+	<div class="wrapper"></div>
+	
+	<br><hr>
+	
+	<h2>csv</h2>
+	<input type="button" value="실행" id="btn2" />
+	<div class="container"></div>
+
+	<script>
+		$(function(){
+			$("#btn1").click(function(){
+				$.ajax({
+					url : "/servlet/ajax/text", 
+					// id=user01&name=kdh
+					data : {
+						name : "kiwi",
+						num : 34,
+						flag : false
+					},
+					method : "GET", // 전송 방식 설정(기본값 : get)
+					dataType : "text", // 응답 데이터의 형식(text | html | xml | json)
+					success : function(response){
+						// 요청 성공 시 실행할 콜백 함수
+						console.log(response);
+						$(".wrapper").html(response);
+					},
+					error : function(xhr, status, error){
+						console.log(xhr, status, error);
+					},
+					complete : function(){
+						console.log("서버 요청 완료.");
+					}
+					// 그 외 주요 속성
+					// - async : 서버 외의 통신 시 비동기 처리 방식 설정 여부(기본값 true)
+					// - crossDomain : 타 도메인 호출 가능 여부 설정(기본값 false)
+					// - contentType : request의 데이터 인코딩 방식
+					// - processData : 서버로 보내는 값이 File형태의 값인 경우 설정하는 속성
+				});
+			})
+		})
+	</script>
+</body>
+</html>

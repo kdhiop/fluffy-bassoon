@@ -16,12 +16,109 @@
 		<li>
 			<a href="life">라이프 사이클</a>
 		</li>
-		<li>
+		<li>ElServlet.java
 			<a href="/servlet/person/testPerson1.html">개취검사 GET | POST</a>
 		</li>
 		<li>
 			<a href="/servlet/person/testPerson2.html">개취검사 JSP</a>
 		</li>
 	</ul>
+	
+	<h1>JSP</h1>
+	<p>
+		JSP
+		 - HTML형식으로 자바코드를 기술할 수 있는 "자바언어"로, 서블릿에서 <br>
+		   응답화면을 구현했을 시 발생하는 복잡성을 해결하기 위해 탄생. <br>
+		 - Servlet은 백엔드 비지니스로직 구현에 집중하고, JSP는 <br>
+		   응답화면(View)구현에 집중할 수 있도록 역할을 분리하였다.
+	</p>
+	
+	<br><hr><br>
+	
+	<h2>JSP Element 표현법</h2>
+	<h3>1. jsp 스크립팅 원소</h3>
+	<p>
+		JSP페이지에서 자바 코드를 기술할 수 있게 해주는 기술
+	</p>
+	<ol>
+		<li>
+			선언문 : &lt;%! %&gt;
+			멤버변수, 메서드를 선언하기 위해 사용
+		</li>
+		<li>
+			스크립틀릿 : &lt;% %&gt;
+			JSP에서 자바 코드를 기술하기 위한 표현법
+		</li>
+		<li>
+			표현식(출력식) : &lt;%= 자바코드 %&gt;
+			자바에서 작성한 값을 출력하기 위해 사용
+		</li>
+	</ol>
+	
+	<a href="jsp/01_scriptingElement.jsp">스크립팅 원소</a>
+	
+	<h3>2. 지시어(Directive) &lt;%@ page/include/taglib 속성,속성 %&gt;</h3>
+	<p>JSP 전체에 영향을 미치는 정보를 기술할 때 사용</p>
+	<ol>
+		<li>
+			page 지시어 : 현재 jsp페이지를 처리하는데 필요한 각종 속성을 기술하는 영역.
+			<ul>
+				<li>language : 현재 jsp에서 사용할 언어유형 지정</li>
+				<li>contentType : 웹 브라우저가 받아볼 페이지의 형식, 인코딩 방식</li>
+				<li>pageEncoding : jsp파일에 기록된 자바코드의 인코딩 방식</li>
+				<li>inport : 자바의 import와 동일</li>
+				<li>errorPage : 현재 jsp에서 에러가 발생할 경우 보여줄 에러페이지 경로</li>
+				<a href="jsp/02_directive.jsp">페이지 지시어</a>
+			</ul>
+		</li><br>
+		<li>
+			include 지시어 : jsp파일에 또 다른 jsp를 포함(include)시키고자 할 때 사용
+			<a href="jsp/03_include.jsp">include 지시어</a>
+		</li>
+		<li>
+			taglib 지시어 : JSP기능을 확장한 추가 라이브러리를 등록하기 위한 지시어
+		</li>
+	</ol>
+	
+	<br><br><hr><br>
+	
+	<h1>* EL(Expression Language)</h1>
+	<p>
+		기존에 사용했던 표현식,출력식을 JSP상에서 좀 더 간결한 방식으로 기술할 수 있도록 지원하는 언어
+		&lt;%= name %&gt; -> ${name}
+	</p>
+	<h3>1. EL 기본 문법</h3>
+	<a href="/servlet/action/el.do">01_EL</a>
+	
+	<h3>2. EL의 연산자</h3>
+	<a href="/servlet/action/oper.do">02_EL의 연산자</a>
+	
+	<br><br><br><hr><br>
+	
+	<h1>* JSP Action Tag</h1>
+	<p>
+		XML 기술을 이용하여 JSP문법을 확장시켜 새로운 기술을 제공하는 태그들
+		<!--
+			JSP 액션 태그의 종류
+			1) 표준 액션 태그
+			 - 별도의 설치 없이 JSP에서 바로 사용이 가능한 태그들
+			2) 커스텀 액션 태그
+			 - 별도의 추가 설치가 필요한 태그들로, 라이브러리 설치 후
+			   taglib지시어를 추가로 사용하여 연동해야 하며,
+			   종류 별로 다양한 기능을 제공한다.
+		-->
+	</p>
+	<h3>1. 표준 액션 태그</h3>
+	<a href="/servlet/action/2_StandardAction/01_include.jsp">01_jsp:include</a><br>
+	<a href="/servlet/action/2_StandardAction/02_forward.jsp">02_jsp:forward</a><br>
+	
+	<h3>2. 커스텀 액션 태그</h3>
+	<a href="/servlet/action/3_CustomAction/jstl.jsp">JSTL</a>
+	
+	<br><br><br><hr><br>
+	
+	<h1>Ajax</h1>
+	<a href="/servlet/ajax/index.jsp">Ajax</a>
+	
 </body>
 </html>
