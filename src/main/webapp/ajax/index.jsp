@@ -17,5 +17,20 @@
 	<ul>
 		<li><a href="text/text.html">text</a></li>
 	</ul>
+	
+	<h2>html</h2>
+	<ul>
+		<li><a href="html/html.html">html</a></li>
+	</ul>
+	
+	<h2>xml</h2>
+	<ul>
+		<li><a href="xml/xml.html">xml</a></li>
+	</ul>
+	
+	<h2>json</h2>
+	<ul>
+		<li><a href="json/json.html">json</a></li>
+	</ul>
 </body>
 </html>

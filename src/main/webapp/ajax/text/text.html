@@ -1,59 +1,62 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<style>
-	table {
-		border-collapse: collapse;
-		border: 1px solid #000;
-		margin: 5px;
-	}
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<style>
+		table {
+			border-collapse: collapse;
+			border: 1px solid #000;
+			margin: 5px;
+		}
 
-	th,
-	td {
-		border: 1px solid #000;
-	}
+		th,
+		td {
+			border: 1px solid #000;
+		}
 
-	table img {
-		width: 150px;
-	}
-</style>
+		table img {
+			width: 150px;
+		}
+	</style>
 </head>
+
 <body>
 	<h1>text</h1>
 	<input type="button" value="실행" id="btn1" />
 	<div class="wrapper"></div>
-	
-	<br><hr>
-	
+
+	<br>
+	<hr>
+
 	<h2>csv</h2>
 	<input type="button" value="실행" id="btn2" />
 	<div class="container"></div>
 
 	<script>
-		$(function(){
-			$("#btn1").click(function(){
+		$(function () {
+			$("#btn1").click(function () {
 				$.ajax({
-					url : "/servlet/ajax/text", 
+					url: "/servlet/ajax/text",
 					// id=user01&name=kdh
-					data : {
-						name : "kiwi",
-						num : 34,
-						flag : false
+					data: {
+						name: "kiwi",
+						num: 34,
+						flag: false
 					},
-					method : "GET", // 전송 방식 설정(기본값 : get)
-					dataType : "text", // 응답 데이터의 형식(text | html | xml | json)
-					success : function(response){
+					method: "GET", // 전송 방식 설정(기본값 : get)
+					dataType: "text", // 응답 데이터의 형식(text | html | xml | json)
+					success: function (response) {
 						// 요청 성공 시 실행할 콜백 함수
 						console.log(response);
 						$(".wrapper").html(response);
 					},
-					error : function(xhr, status, error){
+					error: function (xhr, status, error) {
 						console.log(xhr, status, error);
 					},
-					complete : function(){
+					complete: function () {
 						console.log("서버 요청 완료.");
 					}
 					// 그 외 주요 속성
@@ -62,8 +65,43 @@
 					// - contentType : request의 데이터 인코딩 방식
 					// - processData : 서버로 보내는 값이 File형태의 값인 경우 설정하는 속성
 				});
-			})
+			});
+			
+			$("#btn2").click(function(){
+				$.ajax({
+					url: "/servlet/ajax/csv",
+					success: function(data){
+						// 황제성, 5, 남자
+						// 쥴리아 로버츠, 15, 여자
+						// 김고은, 25, 여자
+						// 다프트펑크, 33, 남자
+						
+						const $table = $("<table></table>");
+						const persons = data.split("\n").slice(0, data.split("\n").length-1);
+						console.log(persons);
+						
+						$(persons).each(function(index, person){
+							const arr = person.split(", ");
+							let tr = "<tr>";
+								tr += "<td>"+arr[0]+"</td>";
+								tr += `<td>${arr[1]}</td>`;
+								tr += `<td>${arr[2]}</td>`;
+								tr += "</tr>";
+								
+							$table.append(tr);
+						});
+						
+						$(".container").append($table);
+						
+					},
+					error: function(xhr, status, err){
+						console.log(xhr, status, err);
+					}
+				});
+			});
+			
 		})
 	</script>
 </body>
+
 </html>

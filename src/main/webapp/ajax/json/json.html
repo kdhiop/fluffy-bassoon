@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<style>
+		table {
+			border-collapse: collapse;
+			border: 1px solid #000;
+			margin: 5px;
+		}
+
+		th,
+		td {
+			border: 1px solid #000;
+		}
+
+		table img {
+			width: 150px;
+		}
+	</style>
+</head>
+<body>
+	<h1>JSON</h1>
+	<div>
+		<button type="button" id="btn">실행</button>
+	</div>
+	<div>
+		<input type="search" id="searchId" placeholder="id검색" />
+		<button type="button" id="btn-search-id">검색</button>
+	</div>
+	<div>
+		<table>
+			<tr>
+				<th>아이디</th>
+				<td><input type="text" name="id" /></td>
+			</tr>
+			<tr>
+				<th>이름</th>
+				<td><input type="text" name="name" /></td>
+			</tr>
+			<tr>
+				<td colspan="2" style="text-align:center;">
+					<button id="btn-save-member">회원가입</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<div class="wrapper"></div>
+	
+	<script>
+		$("#btn").click(function(){
+			$.ajax({
+				url: "/servlet/ajax/json",
+				// dataType: 'json',
+				success: function(data){
+					console.log(data);
+					// JSON -> JS
+					// JSON.parse(JSON문자열) : JS
+					// let arr = JSON.parse(data);
+					// console.log(arr);					
+					
+					// JS -> JSON
+					// JSON.stringify(js) : JSON
+				},
+				error: function(xhr){
+					console.log(xhr);
+				}
+			});
+		});
+		
+		$("#btn-search-id").click(function(){
+			$.ajax({
+				url: "/servlet/ajax/json",
+				data: {
+					searchId: $("#searchId").val()
+				},
+				success: function(data){
+					// console.log(data);
+					if(data){
+						const table = $("<table></table>")
+						table.append(`<tr><td>${data.name}</td></tr>`)
+							.append(`<tr><td>${data.age}</td></tr>`)
+							.append(`<tr><td>${data.gender}</td></tr>`)
+							.appendTo(".wrapper")
+					}else{
+						alert("해당하는 회원이 없습니다.");
+					}
+				},
+				error: function(xhr){
+					console.log(xhr);
+				}
+			});
+		});
+	</script>
+</body>
+</html>

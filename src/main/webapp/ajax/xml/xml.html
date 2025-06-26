@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<style>
+		table {
+			border-collapse: collapse;
+			border: 1px solid #000;
+			margin: 5px;
+		}
+
+		th,
+		td {
+			border: 1px solid #000;
+		}
+
+		table img {
+			width: 150px;
+		}
+	</style>
+</head>
+<body>
+	<h1>XML</h1>
+	<button id="btn">실행</button>
+	
+	<script>
+		$(function(){
+			$("#btn").click(function(){
+				$.ajax({
+					url: "/servlet/ajax/xml",
+					success: function(data){
+						console.log(data);
+						const $table = $("<table></table>");
+						const $members = $(data).find("member");
+						
+						$members.each(function(index, member){
+							const $tr = $("<tr></tr>");
+							
+							$tr
+							.append(`<td>${ $(member).children().eq(0).text() }</td>`)
+							.append(`<td>${ $(member).children().eq(1).text() }</td>`)
+							.append(`<td>${ $(member).children().eq(2).text() }</td>`)
+							.appendTo($table);
+						});
+						$("body").append($table);
+					},
+					error: function(xhr, status, err){
+						console.log(xhr, status, err);
+					}
+				})
+			});
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<style>
+		table {
+			border-collapse: collapse;
+			border: 1px solid #000;
+			margin: 5px;
+		}
+
+		th,
+		td {
+			border: 1px solid #000;
+		}
+
+		table img {
+			width: 150px;
+		}
+	</style>
+</head>
+<body>
+	<h1>html</h1>
+	<input type="button" value="실행" id="btn"/>
+	<div class="wrapper"></div>
+	
+	<script>
+		$(function(){
+			$("#btn").click(function(){
+				$.ajax({
+					url: "/servlet/ajax/html",
+					success: function(data){
+						console.log(data);
+						$(".wrapper").html(data);
+					},
+					error: function(xhr, status, err){
+						console.log(xhr, status, err);
+					}
+				});
+			});
+		});
+	</script>
+</body>
+</html>
